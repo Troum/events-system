@@ -1,0 +1,70 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+  --container-8xl: 100rem;
+}
+
+@theme static {
+  /* Светло-бирюзовая палитра */
+  --color-primary-50: #ecfeff;
+  --color-primary-100: #cffafe;
+  --color-primary-200: #a5f3fc;
+  --color-primary-300: #67e8f9;
+  --color-primary-400: #22d3ee;
+  --color-primary-500: #06b6d4;
+  --color-primary-600: #0891b2;
+  --color-primary-700: #0e7490;
+  --color-primary-800: #155e75;
+  --color-primary-900: #164e63;
+  --color-primary-950: #083344;
+}
+
+:root {
+  --ui-container: var(--container-8xl);
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, #a5f3fc 0%, #22d3ee 50%, #06b6d4 100%);
+  }
+
+  .gradient-primary-light {
+    background: linear-gradient(135deg, #ecfeff 0%, #cffafe 50%, #a5f3fc 100%);
+  }
+
+  .gradient-primary-dark {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 50%, #155e75 100%);
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 50%, #cffafe 100%);
+  }
+
+  .gradient-bg-dark {
+    background: linear-gradient(135deg, #164e63 0%, #155e75 50%, #0e7490 100%);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .glass-effect-dark {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .transition-gradient {
+    transition: background 0.3s ease;
+  }
+}
