@@ -2,7 +2,7 @@ export interface Event {
   id: number
   title: string
   subtitle?: string
-  slug?: string
+  slug: string
   description: string
   hero_description?: string
   image: string | null
@@ -46,6 +46,8 @@ export interface Event {
 export interface Trip {
   id: number
   event_id: number
+  event_slug?: string
+  event?: Event
   city_from: string
   city_to?: string
   departure_time: string

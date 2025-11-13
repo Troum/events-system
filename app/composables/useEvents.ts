@@ -14,8 +14,8 @@ export function useEvents() {
     return api.get<{ data: Event[] }>(endpoint)
   }
 
-  const getEvent = async (id: number) => {
-    return api.get<{ data: Event }>(`/events/${id}`)
+  const getEvent = async (slug: string) => {
+    return api.get<{ data: Event }>(`/events/${slug}`)
   }
 
   return {

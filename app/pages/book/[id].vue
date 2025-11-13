@@ -164,7 +164,7 @@ onMounted(() => {
         <!-- Back Button -->
         <div class="mb-8">
           <UButton
-            :to="trip ? `/event/${trip.event_id}` : '/events'"
+            :to="trip && trip.event ? `/event/${trip.event.slug}` : trip && trip.event_slug ? `/event/${trip.event_slug}` : '/events'"
             color="primary"
             variant="ghost"
             icon="i-heroicons-arrow-left"

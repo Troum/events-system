@@ -3,7 +3,7 @@ import type { Event, Trip } from '~/types'
 
 const route = useRoute()
 const router = useRouter()
-const eventId = Number(route.params.id)
+const eventSlug = String(route.params.id) // Используем slug из параметра
 
 const events = useEvents()
 const { getImageUrl } = useImageUrl()
@@ -67,7 +67,7 @@ const mapUrl = computed(() => {
 onMounted(async () => {
   try {
     loading.value = true
-    const eventResponse = await events.getEvent(eventId)
+    const eventResponse = await events.getEvent(eventSlug)
     event.value = eventResponse.data
 
     if (event.value) {

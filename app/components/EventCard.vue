@@ -19,7 +19,7 @@ const formatDate = (date: string) => {
 </script>
 
 <template>
-  <NuxtLink :to="`/event/${event.id}`" class="block group">
+  <NuxtLink :to="`/event/${event.slug}`" class="block group">
     <UCard class="h-full backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border-2 border-primary-200/50 dark:border-primary-800/50 hover:border-primary-400 dark:hover:border-primary-600 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
       <template #header>
         <div class="relative h-56 overflow-hidden rounded-t-lg">
