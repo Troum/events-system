@@ -97,8 +97,6 @@ const coordinates = computed(() => [props.latitude, props.longitude]);
 const yandexSettings = computed(() => ({
   apikey: mapConfig.value.api_key,
   lang: 'ru_RU',
-  coordorder: 'latlong',
-  version: '3.0',
 }));
 
 const markerSettings = {
