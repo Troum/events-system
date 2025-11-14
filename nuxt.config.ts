@@ -18,8 +18,9 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://api.camp.test/api/v1',
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://camp-events.ru'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://api.camp.test/api/v1',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://camp-events.ru',
+      yandexMapsApiKey: process.env.NUXT_PUBLIC_YANDEX_MAPS_API_KEY || '593670a6-8e5e-4895-9fe5-dbd37dde463a'
     }
   },
 
