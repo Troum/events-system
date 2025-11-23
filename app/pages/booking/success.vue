@@ -87,6 +87,7 @@ const bookingId = computed(() => route.query.booking_id as string)
               to="/events"
               variant="outline"
               size="xl"
+              color="primary"
               class="font-bold text-lg py-4 px-8 rounded-2xl"
             >
               <UIcon name="i-heroicons-calendar-days" class="w-6 h-6" />

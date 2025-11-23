@@ -90,13 +90,7 @@ watch(() => props.paymentUrl, (newUrl) => {
   paymentUrl.value = newUrl || null
 })
 
-const formatPrice = (price: number | string) => {
-  const numPrice = typeof price === 'string' ? parseFloat(price) : price
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
-  }).format(numPrice)
-}
+const { formatPrice } = useFormatters()
 
 const getStatusColor = (status: Payment['status']) => {
   const colors = {

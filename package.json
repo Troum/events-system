@@ -14,8 +14,10 @@
     "@nuxt/scripts": "^0.13.0",
     "@nuxt/ui": "^4.1.0",
     "@unhead/vue": "^2.0.19",
+    "laravel-echo": "^2.2.6",
     "leaflet": "^1.9.4",
     "nuxt": "^4.2.0",
+    "pusher-js": "^8.4.0",
     "typescript": "^5.9.3",
     "vue": "^3.5.22",
     "vue-leaflet": "^0.1.0",
@@ -23,6 +25,7 @@
     "vue-yandex-maps": "^2.2.4"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.71"
+    "@iconify-json/lucide": "^1.2.71",
+    "@yandex/ymaps3-types": "^1.0.18043255"
   }
 }

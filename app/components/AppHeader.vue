@@ -34,6 +34,11 @@
         >
           Контакты
         </UButton>
+        
+        <!-- Переключатель темы -->
+        <div class="ml-2 pl-2 border-l border-gray-200 dark:border-gray-700">
+          <UColorModeButton />
+        </div>
       </div>
     </template>
   </UHeader>

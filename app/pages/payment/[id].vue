@@ -14,13 +14,7 @@ const loading = ref(true)
 const paymentLoading = ref(false)
 const error = ref<string | null>(null)
 
-const formatPrice = (price: number | string) => {
-  const numPrice = typeof price === 'string' ? parseFloat(price) : price
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
-  }).format(numPrice)
-}
+const { formatPrice } = useFormatters()
 
 const paymentGatewayInfo = computed(() => {
   if (!booking.value?.payment_gateway) return null

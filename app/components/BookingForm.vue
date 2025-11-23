@@ -81,13 +81,7 @@ const isFormValid = computed(() => {
   return formData.user_name && formData.user_phone && formData.user_email && formData.seats > 0 && formData.seats <= props.availableSeats
 })
 
-const formatPrice = (price: number | string) => {
-  const numPrice = typeof price === 'string' ? parseFloat(price) : price
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
-  }).format(numPrice)
-}
+const { formatPrice } = useFormatters()
 
 const handleSubmit = async () => {
   if (!isFormValid.value) return

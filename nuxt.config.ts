@@ -2,8 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@nuxt/image', '@nuxt/scripts', '@nuxt/ui'],
-
+  modules: ['@nuxt/image', '@nuxt/scripts', '@nuxt/ui', 'vue-yandex-maps/nuxt'],
   ui: {
     theme: {
       colors: ['primary']
@@ -13,14 +12,27 @@ export default defineNuxtConfig({
     }
   },
 
+  colorMode: {
+    preference: 'system', // 'system', 'light', 'dark'
+    fallback: 'light',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
+  },
+
   css: [
     '~/assets/css/main.css'
   ],
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://api.camp.test/api/v1',
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://camp-events.ru',
-      yandexMapsApiKey: process.env.NUXT_PUBLIC_YANDEX_MAPS_API_KEY || '593670a6-8e5e-4895-9fe5-dbd37dde463a'
+      apiBase: import.meta.env.NUXT_PUBLIC_API_BASE || 'https://api.camp.test/api/v1',
+      siteUrl: import.meta.env.NUXT_PUBLIC_SITE_URL || 'https://camp-events.ru',
+      yandexMapsApiKey: import.meta.env.NUXT_PUBLIC_YANDEX_MAPS_API_KEY || '593670a6-8e5e-4895-9fe5-dbd37dde463a',
+      // Laravel Reverb (WebSocket)
+      reverbAppKey: import.meta.env.NUXT_PUBLIC_REVERB_APP_KEY || '96e535e407b504b429fe4849799d2e796cc6d501',
+      wsUrl: import.meta.env.NUXT_PUBLIC_WS_URL || (import.meta.dev ? 'api.camp.test' : 'api.events-system.online'),
+      wsPort: import.meta.env.NUXT_PUBLIC_WS_PORT || 6002,
+      wssPort: import.meta.env.NUXT_PUBLIC_WSS_PORT || 6002,
+      reverbScheme: import.meta.env.NUXT_PUBLIC_REVERB_SCHEME || (import.meta.dev ? 'https' : 'https'),
     }
   },
 
@@ -37,11 +49,17 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-      ]
+      ],
+      script: []
     }
   },
 
   ssr: true,
+
+  yandexMaps: {
+    apikey: import.meta.env.NUXT_PUBLIC_YANDEX_MAPS_API_KEY || '593670a6-8e5e-4895-9fe5-dbd37dde463a',
+    lang: 'ru_RU',
+  },
 
   image: {
     domains: ['api.camp.test', 'localhost', '127.0.0.1'],

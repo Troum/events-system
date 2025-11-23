@@ -28,13 +28,7 @@ const goToSlide = (index: number) => {
   currentSlide.value = index
 }
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  })
-}
+const { formatDate } = useFormatters()
 
 // Auto-play slider
 let autoPlayInterval: NodeJS.Timeout | null = null
@@ -100,7 +94,7 @@ const resumeAutoPlay = () => {
     <button
       v-if="images.length > 1"
       @click="prevSlide"
-      class="h-[48px] w-[48px]cuesor:pointer absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all hover:scale-110"
+      class="h-[48px] w-[48px] cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all hover:scale-110"
       aria-label="Previous slide"
     >
       <UIcon name="i-heroicons-chevron-left" class="w-6 h-6" />
@@ -108,7 +102,7 @@ const resumeAutoPlay = () => {
     <button
       v-if="images.length > 1"
       @click="nextSlide"
-      class="h-[48px] w-[48px]cuesor:pointer absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all hover:scale-110"
+      class="h-[48px] w-[48px] cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all hover:scale-110"
       aria-label="Next slide"
     >
       <UIcon name="i-heroicons-chevron-right" class="w-6 h-6" />

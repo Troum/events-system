@@ -3,7 +3,7 @@ import type { Event, Trip } from '~/types'
 
 const route = useRoute()
 const router = useRouter()
-const eventSlug = String(route.params.id) // Используем slug из параметра
+const eventSlug = String(route.params.slug) // Используем slug из параметра
 
 const events = useEvents()
 const { getImageUrl } = useImageUrl()
@@ -13,55 +13,22 @@ const tripsList = ref<Trip[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  })
-}
-
-const formatTime = (datetime: string) => {
-  return new Date(datetime).toLocaleTimeString('ru-RU', {
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
-
-const formatPrice = (price: number | string) => {
-  const numPrice = typeof price === 'string' ? parseFloat(price) : price
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
-  }).format(numPrice)
-}
+const { formatDate, formatTime, formatPrice } = useFormatters()
 
 const navigateToTrip = (tripId: number) => {
   router.push(`/book/${tripId}`)
 }
 
-// Computed property для URL карты
-const mapUrl = computed(() => {
+// Проверка наличия координат для карты
+const hasMapCoordinates = computed(() => {
   if (!event.value?.venue_latitude || !event.value?.venue_longitude) {
-    return ''
+    return false
   }
 
   const lat = parseFloat(String(event.value.venue_latitude))
   const lng = parseFloat(String(event.value.venue_longitude))
 
-  // Проверяем, что координаты валидные
-  if (isNaN(lat) || isNaN(lng)) {
-    console.error('Invalid coordinates:', { lat: event.value.venue_latitude, lng: event.value.venue_longitude })
-    return ''
-  }
-
-  const delta = 0.01
-  const minLng = (lng - delta).toFixed(6)
-  const minLat = (lat - delta).toFixed(6)
-  const maxLng = (lng + delta).toFixed(6)
-  const maxLat = (lat + delta).toFixed(6)
-
-  return `https://www.openstreetmap.org/export/embed.html?bbox=${minLng},${minLat},${maxLng},${maxLat}&layer=mapnik&marker=${lat.toFixed(6)},${lng.toFixed(6)}`
+  return !isNaN(lat) && !isNaN(lng)
 })
 
 onMounted(async () => {
@@ -343,13 +310,16 @@ onMounted(async () => {
               <h2 class="text-3xl font-bold mb-6 gradient-text">Место проведения</h2>
               <div class="rounded-2xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 overflow-hidden">
                 <!-- Карта если есть координаты -->
-                <div v-if="mapUrl" class="h-64 bg-gray-200 dark:bg-gray-700">
-                  <iframe
-                    :src="mapUrl"
-                    class="w-full h-full"
-                    frameborder="0"
-                    title="Карта места проведения"
-                  ></iframe>
+                <div v-if="hasMapCoordinates" class="h-96 bg-gray-200 dark:bg-gray-700">
+                  <DynamicMap
+                    :latitude="parseFloat(String(event.venue_latitude))"
+                    :longitude="parseFloat(String(event.venue_longitude))"
+                    :zoom="14"
+                    :title="event.venue_name || 'Место проведения'"
+                    :address="event.venue_address"
+                    :show-info="false"
+                    height="100%"
+                  />
                 </div>
 
                 <div class="p-6">
@@ -476,7 +446,11 @@ onMounted(async () => {
                   </div>
                 </div>
 
-                <EmptyStateSimple v-else />
+                <UEmpty
+                  v-else
+                  icon="i-heroicons-truck"
+                  description="Мы работаем над организацией поездок на это мероприятие"
+                />
               </UCard>
 
               <!-- Организатор -->
@@ -508,3 +482,5 @@ onMounted(async () => {
     </UContainer>
   </div>
 </template>
+
+

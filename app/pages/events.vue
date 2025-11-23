@@ -94,7 +94,20 @@ watch(currentPage, (newPage) => {
       </div>
 
       <!-- Empty State -->
-      <EmptyStateEvents v-else />
+      <UEmpty
+        v-else
+        icon="i-heroicons-calendar-days"
+        description="Мы работаем над добавлением интересных событий. Следите за обновлениями!"
+      >
+        <template #actions>
+          <UButton to="/" color="primary" size="lg">
+            На главную
+          </UButton>
+          <UButton to="/contact" color="primary" variant="outline" size="lg">
+            Связаться
+          </UButton>
+        </template>
+      </UEmpty>
     </UContainer>
   </div>
 </template>

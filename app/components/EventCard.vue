@@ -8,14 +8,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const { getImageUrl } = useImageUrl()
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  })
-}
+const { formatDate } = useFormatters()
 </script>
 
 <template>

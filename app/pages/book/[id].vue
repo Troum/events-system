@@ -15,20 +15,7 @@ const availableSeats = computed(() => {
   return trip.value.seats_total - trip.value.seats_taken
 })
 
-// const formatDate = (date: string) => {
-//   return new Date(date).toLocaleDateString('ru-RU', {
-//     day: 'numeric',
-//     month: 'long',
-//     year: 'numeric'
-//   })
-// }
-
-const formatTime = (time: string) => {
-  return new Date(time).toLocaleDateString('ru-RU', {
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
+const { formatTime } = useFormatters()
 
 const loadTrip = async () => {
   try {
