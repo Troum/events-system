@@ -12,13 +12,8 @@ const event = ref<Event | null>(null)
 const tripsList = ref<Trip[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
-const openFaqIndex = ref<number | null>(null)
 
 const { formatDate, formatTime, formatPrice } = useFormatters()
-
-const toggleFaq = (index: number) => {
-  openFaqIndex.value = openFaqIndex.value === index ? null : index
-}
 
 const navigateToTrip = (tripId: number) => {
   router.push(`/book/${tripId}`)
@@ -391,43 +386,8 @@ onMounted(async () => {
 
             <!-- FAQ -->
             <section v-if="event.faq && event.faq.length > 0">
-              <h2 class="text-3xl font-bold mb-8 gradient-text">Вопросы и ответы</h2>
-              <div class="space-y-4">
-                <div
-                  v-for="(item, index) in event.faq"
-                  :key="index"
-                  class="group rounded-2xl bg-gradient-to-br from-white to-primary-50/30 dark:from-gray-800 dark:to-primary-900/20 border-2 border-primary-200/50 dark:border-primary-800/50 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:border-primary-400/50 dark:hover:border-primary-600/50"
-                >
-                  <button
-                    @click="toggleFaq(index)"
-                    class="w-full p-6 flex items-center justify-between gap-4 text-left hover:bg-primary-50/50 dark:hover:bg-primary-900/20 transition-colors"
-                  >
-                    <div class="flex items-start gap-4 flex-1">
-                      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white flex-shrink-0 group-hover:scale-110 transition-transform">
-                        <UIcon name="i-heroicons-question-mark-circle" class="w-6 h-6" />
-                      </div>
-                      <h3 class="font-bold text-lg text-gray-900 dark:text-white pr-4">
-                        {{ item.question }}
-                      </h3>
-                    </div>
-                    <UIcon
-                      :name="openFaqIndex === index ? 'i-heroicons-chevron-up' : 'i-heroicons-chevron-down'"
-                      class="w-6 h-6 text-primary-500 flex-shrink-0 transition-transform duration-300"
-                      :class="{ 'rotate-180': openFaqIndex === index }"
-                    />
-                  </button>
-                  <div
-                    v-show="openFaqIndex === index"
-                    class="px-6 pb-6 pl-20 transition-all duration-300"
-                  >
-                    <div class="pt-4 border-t border-primary-200/50 dark:border-primary-800/50">
-                      <p class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                        {{ item.answer }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <h2 class="text-3xl font-bold mb-6 gradient-text">Вопросы и ответы</h2>
+              <UAccordion :items="event.faq.map(q => ({ label: q.question, content: q.answer }))" />
             </section>
 
             <!-- Галерея -->
