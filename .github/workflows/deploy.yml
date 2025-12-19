@@ -1,0 +1,66 @@
+name: Deploy (events-system.online)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-events-system-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install sshpass
+        run: sudo apt-get update -y && sudo apt-get install -y sshpass
+
+      - name: Deploy via SSH
+        env:
+          SSH_IP: ${{ secrets.SSH_IP }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASS: ${{ secrets.SSH_PASS }}
+          SSH_PATH: ${{ secrets.SSH_PATH }}
+        run: |
+          set -euo pipefail
+          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no "$SSH_USER@$SSH_IP" 'bash -l << "DEPLOY_SCRIPT"
+            set -euo pipefail
+            cd "'"$SSH_PATH"'"
+
+            echo "==> Git pull"
+            git fetch --prune origin
+            git reset --hard origin/main
+
+            echo "==> Load nvm"
+            export NVM_DIR="${HOME}/.nvm"
+            if [ -s "${NVM_DIR}/nvm.sh" ]; then
+              . "${NVM_DIR}/nvm.sh"
+            elif [ -s "/usr/local/nvm/nvm.sh" ]; then
+              . "/usr/local/nvm/nvm.sh"
+            else
+              echo "nvm not found" >&2
+              exit 1
+            fi
+
+            nvm install
+            nvm use
+
+            echo "==> Install dependencies"
+            npm ci
+
+            echo "==> Build"
+            npm run build
+
+            echo "==> PM2 restart"
+            export PORT=4210
+
+            if pm2 describe "Events System" >/dev/null 2>&1; then
+              pm2 restart "Events System" --update-env
+            else
+              pm2 start ecosystem.config.cjs
+            fi
+
+            pm2 save
+          DEPLOY_SCRIPT'
+
